@@ -10,6 +10,8 @@ jobs:
       matrix:
         os: [macos-latest]
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
     steps:
     - name: Set up Swift
       uses: swift-actions/setup-swift@v2
@@ -20,6 +22,7 @@ jobs:
     - name: Build the application
       run: swift build --configuration release
     - name: Archive the build artifacts
+    
       run: tar -czvf release-${{ matrix.os }}.tar.gz .build/release
     - name: Create GitHub Release
       id: create_release

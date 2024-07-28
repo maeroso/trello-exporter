@@ -1,6 +1,6 @@
 import ArgumentParser
 import OSLog
-import TrelloAPI
+import OpenAPIRuntime
 
 extension URL: ExpressibleByArgument {
     public init?(argument: String) {

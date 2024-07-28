@@ -1,6 +1,6 @@
 import Foundation
 import OSLog
-import TrelloAPI
+import OpenAPIRuntime
 
 extension Client {
     static var downloadDirectory: URL?

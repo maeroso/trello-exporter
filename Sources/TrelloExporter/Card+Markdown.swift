@@ -1,6 +1,6 @@
 import Foundation
 import Markdown
-import TrelloAPI
+import OpenAPIRuntime
 
 extension Components.Schemas.Card {
     private func MarkdownInfoTable() -> Markdown.Table {

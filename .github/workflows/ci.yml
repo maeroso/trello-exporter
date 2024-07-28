@@ -13,14 +13,17 @@ jobs:
     steps:
     - name: Set up Swift
       uses: swift-actions/setup-swift@v2
-    - name: Get swift version
-      run: swift --version 
-
     - name: Check out the repository
       uses: actions/checkout@v4
+    - uses: actions/cache@v4
+      with:
+        path: .build
+        key: ${{ runner.os }}-spm-${{ hashFiles('**/Package.resolved') }}
+        restore-keys: |
+          ${{ runner.os }}-spm-
 
     - name: Build the application
-      run: swift build --configuration release
+      run: swift build --build-tests
     
     - name: Run tests
-      run: swift test --configuration release
+      run: swift test

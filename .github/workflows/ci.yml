@@ -1,0 +1,26 @@
+name: CI for Swift Console Application
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Set up Swift
+      uses: swift-actions/setup-swift@v2
+    - name: Get swift version
+      run: swift --version 
+
+    - name: Check out the repository
+      uses: actions/checkout@v4
+
+    - name: Build the application
+      run: swift build --configuration release
+    
+    - name: Run tests
+      run: swift test --configuration release

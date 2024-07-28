@@ -2,7 +2,6 @@ import Foundation
 import HTTPTypes
 import OpenAPIRuntime
 import OpenAPIURLSession
-import TrelloAPI
 
 extension Client {
     static var authCredentials: (apiKey: String, apiToken: String)?

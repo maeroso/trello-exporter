@@ -1,0 +1,42 @@
+name: CD for Swift Console Application
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-release:
+    strategy:
+      matrix:
+        os: [macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Set up Swift
+      uses: swift-actions/setup-swift@v2
+    - name: Check out the repository
+      uses: actions/checkout@v4
+    - name: Get swift version
+      run: swift --version 
+    - name: Build the application
+      run: swift build --configuration release
+    - name: Archive the build artifacts
+      run: tar -czvf release-${{ matrix.os }}.tar.gz .build/release
+    - name: Create GitHub Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.sha }}
+        release_name: Release ${{ github.sha }}
+        draft: false
+        prerelease: false
+    - name: Upload release assets
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: release-${{ matrix.os }}.tar.gz
+        asset_name: ${{ matrix.os }}-release.tar.gz
+        asset_content_type: application/gzip
